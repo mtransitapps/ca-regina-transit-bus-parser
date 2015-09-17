@@ -79,7 +79,11 @@ public class ReginaTransitBusAgencyTools extends DefaultAgencyTools {
 
 	@Override
 	public String getRouteLongName(GRoute gRoute) {
-		return CleanUtils.cleanLabel(gRoute.getRouteLongName().toLowerCase(Locale.ENGLISH));
+		String routeLongName = gRoute.getRouteLongName().toLowerCase(Locale.ENGLISH);
+		routeLongName = routeLongName.toLowerCase(Locale.ENGLISH);
+		routeLongName = INDUSTRIAL.matcher(routeLongName).replaceAll(INDUSTRIAL_REPLACEMENT);
+		routeLongName = CleanUtils.cleanStreetTypes(routeLongName);
+		return CleanUtils.cleanLabel(routeLongName);
 	}
 
 	private static final String AGENCY_COLOR_BLUE = "0AB0DE"; // LIGHT BLUE (from PDF schedule)
@@ -95,7 +99,7 @@ public class ReginaTransitBusAgencyTools extends DefaultAgencyTools {
 	private static final String EAST = "east";
 
 	private static final String DIEPPE = "Dieppe";
-	private static final String ARGYLE_PARK = "Argyle Park";
+	private static final String ARGYLE_PARK = "Argyle Pk";
 	private static final String GLENCAIRN = "Glencairn";
 	private static final String EAST_THS = "East";
 	private static final String DOWNTOWN = "Downtown";
@@ -150,8 +154,13 @@ public class ReginaTransitBusAgencyTools extends DefaultAgencyTools {
 	@Override
 	public String cleanTripHeadsign(String tripHeadsign) {
 		tripHeadsign = EXPRESS.matcher(tripHeadsign).replaceAll(StringUtils.EMPTY);
+		tripHeadsign = INDUSTRIAL.matcher(tripHeadsign).replaceAll(INDUSTRIAL_REPLACEMENT);
+		tripHeadsign = CleanUtils.cleanStreetTypes(tripHeadsign);
 		return CleanUtils.cleanLabel(tripHeadsign);
 	}
+
+	private static final Pattern INDUSTRIAL = Pattern.compile("((^|\\W){1}(industrial)(\\W|$){1})", Pattern.CASE_INSENSITIVE);
+	private static final String INDUSTRIAL_REPLACEMENT = "$2Ind$4";
 
 	private static final Pattern ENDS_WITH_BOUND = Pattern.compile("([\\s]*\\([\\s]*[s|e|w|n]b\\)$)", Pattern.CASE_INSENSITIVE);
 
@@ -163,6 +172,7 @@ public class ReginaTransitBusAgencyTools extends DefaultAgencyTools {
 		gStopName = gStopName.toLowerCase(Locale.ENGLISH);
 		gStopName = ENDS_WITH_BOUND.matcher(gStopName).replaceAll(StringUtils.EMPTY);
 		gStopName = AT_SIGN.matcher(gStopName).replaceAll(AT_SIGN_REPLACEMENT);
+		gStopName = INDUSTRIAL.matcher(gStopName).replaceAll(INDUSTRIAL_REPLACEMENT);
 		gStopName = CleanUtils.cleanStreetTypes(gStopName);
 		gStopName = CleanUtils.cleanNumbers(gStopName);
 		return CleanUtils.cleanLabel(gStopName);
