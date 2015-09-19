@@ -116,6 +116,14 @@ public class ReginaTransitBusAgencyTools extends DefaultAgencyTools {
 				mTrip.setHeadsignString(ARGYLE_PARK, gTrip.getDirectionId());
 				return;
 			}
+		} else if (mRoute.id == 16l) {
+			if (gTrip.getDirectionId() == 0) {
+				mTrip.setHeadsignDirection(MDirectionType.EAST);
+				return;
+			} else if (gTrip.getDirectionId() == 1) {
+				mTrip.setHeadsignDirection(MDirectionType.WEST);
+				return;
+			}
 		} else if (mRoute.id == 21l) {
 			if (gTrip.getDirectionId() == 1) {
 				mTrip.setHeadsignString(GLENCAIRN, gTrip.getDirectionId());
