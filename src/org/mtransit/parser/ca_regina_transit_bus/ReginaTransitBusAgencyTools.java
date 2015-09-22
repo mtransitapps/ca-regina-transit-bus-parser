@@ -79,7 +79,7 @@ public class ReginaTransitBusAgencyTools extends DefaultAgencyTools {
 
 	@Override
 	public String getRouteLongName(GRoute gRoute) {
-		String routeLongName = gRoute.getRouteLongName().toLowerCase(Locale.ENGLISH);
+		String routeLongName = gRoute.getRouteLongName();
 		routeLongName = routeLongName.toLowerCase(Locale.ENGLISH);
 		routeLongName = INDUSTRIAL.matcher(routeLongName).replaceAll(INDUSTRIAL_REPLACEMENT);
 		routeLongName = CleanUtils.cleanStreetTypes(routeLongName);
@@ -95,14 +95,17 @@ public class ReginaTransitBusAgencyTools extends DefaultAgencyTools {
 		return AGENCY_COLOR;
 	}
 
-	private static final String WEST = "west";
 	private static final String EAST = "east";
+	private static final String WEST = "west";
+	private static final String NORTH = "north";
+	private static final String SOUTH = "south";
 
 	private static final String DIEPPE = "Dieppe";
 	private static final String ARGYLE_PARK = "Argyle Pk";
 	private static final String GLENCAIRN = "Glencairn";
 	private static final String EAST_THS = "East";
 	private static final String DOWNTOWN = "Downtown";
+	private static final String SHERWOOD = "Sherwood";
 
 	@Override
 	public void setTripHeadsign(MRoute mRoute, MTrip mTrip, GTrip gTrip, GSpec gtfs) {
@@ -116,11 +119,34 @@ public class ReginaTransitBusAgencyTools extends DefaultAgencyTools {
 				mTrip.setHeadsignString(ARGYLE_PARK, gTrip.getDirectionId());
 				return;
 			}
+		} else if (mRoute.id == 3l) {
+			if (gTrip.getDirectionId() == 1) {
+				mTrip.setHeadsignString(SHERWOOD, gTrip.getDirectionId());
+				return;
+			}
+		} else if (mRoute.id == 15l) {
+			String gTripHeadsignLC = gTrip.getTripHeadsign().toLowerCase(Locale.ENGLISH);
+			if (gTripHeadsignLC.endsWith(EAST)) {
+				mTrip.setHeadsignDirection(MDirectionType.EAST);
+				return;
+			} else if (gTripHeadsignLC.endsWith(WEST)) {
+				mTrip.setHeadsignDirection(MDirectionType.WEST);
+				return;
+			}
 		} else if (mRoute.id == 16l) {
 			if (gTrip.getDirectionId() == 0) {
 				mTrip.setHeadsignDirection(MDirectionType.EAST);
 				return;
 			} else if (gTrip.getDirectionId() == 1) {
+				mTrip.setHeadsignDirection(MDirectionType.WEST);
+				return;
+			}
+		} else if (mRoute.id == 17l) {
+			String gTripHeadsignLC = gTrip.getTripHeadsign().toLowerCase(Locale.ENGLISH);
+			if (gTripHeadsignLC.endsWith(EAST)) {
+				mTrip.setHeadsignDirection(MDirectionType.EAST);
+				return;
+			} else if (gTripHeadsignLC.endsWith(WEST)) {
 				mTrip.setHeadsignDirection(MDirectionType.WEST);
 				return;
 			}
@@ -130,6 +156,14 @@ public class ReginaTransitBusAgencyTools extends DefaultAgencyTools {
 				return;
 			}
 		} else if (mRoute.id == 40l) {
+			String gTripHeadsignLC = gTrip.getTripHeadsign().toLowerCase(Locale.ENGLISH);
+			if (gTripHeadsignLC.contains(NORTH)) {
+				mTrip.setHeadsignDirection(MDirectionType.NORTH);
+				return;
+			} else if (gTripHeadsignLC.contains(SOUTH)) {
+				mTrip.setHeadsignDirection(MDirectionType.SOUTH);
+				return;
+			}
 			if (gTrip.getDirectionId() == 0) {
 				mTrip.setHeadsignDirection(MDirectionType.SOUTH);
 				return;
@@ -146,29 +180,25 @@ public class ReginaTransitBusAgencyTools extends DefaultAgencyTools {
 				return;
 			}
 		}
-		String gTripHeadsignLC = gTrip.getTripHeadsign().toLowerCase(Locale.ENGLISH);
-		if (gTripHeadsignLC.endsWith(EAST)) {
-			mTrip.setHeadsignDirection(MDirectionType.EAST);
-			return;
-		} else if (gTripHeadsignLC.endsWith(WEST)) {
-			mTrip.setHeadsignDirection(MDirectionType.WEST);
-			return;
-		}
-		mTrip.setHeadsignString(cleanTripHeadsign(gTripHeadsignLC), gTrip.getDirectionId());
+		mTrip.setHeadsignString(cleanTripHeadsign(gTrip.getTripHeadsign()), gTrip.getDirectionId());
 	}
 
-	private static final Pattern EXPRESS = Pattern.compile("(express)", Pattern.CASE_INSENSITIVE);
+	private static final Pattern EXPRESS = Pattern.compile("((^|\\W){1}(express)(\\W|$){1})", Pattern.CASE_INSENSITIVE);
+
+	private static final String INDUSTRIAL_SHORT = "Ind";
+
+	private static final Pattern INDUSTRIAL = Pattern.compile("((^|\\W){1}(industrial)(\\W|$){1})", Pattern.CASE_INSENSITIVE);
+	private static final String INDUSTRIAL_REPLACEMENT = "$2" + INDUSTRIAL_SHORT + "$4";
 
 	@Override
 	public String cleanTripHeadsign(String tripHeadsign) {
+		tripHeadsign = tripHeadsign.toLowerCase(Locale.ENGLISH);
 		tripHeadsign = EXPRESS.matcher(tripHeadsign).replaceAll(StringUtils.EMPTY);
 		tripHeadsign = INDUSTRIAL.matcher(tripHeadsign).replaceAll(INDUSTRIAL_REPLACEMENT);
 		tripHeadsign = CleanUtils.cleanStreetTypes(tripHeadsign);
+		tripHeadsign = CleanUtils.removePoints(tripHeadsign);
 		return CleanUtils.cleanLabel(tripHeadsign);
 	}
-
-	private static final Pattern INDUSTRIAL = Pattern.compile("((^|\\W){1}(industrial)(\\W|$){1})", Pattern.CASE_INSENSITIVE);
-	private static final String INDUSTRIAL_REPLACEMENT = "$2Ind$4";
 
 	private static final Pattern ENDS_WITH_BOUND = Pattern.compile("([\\s]*\\([\\s]*[s|e|w|n]b\\)$)", Pattern.CASE_INSENSITIVE);
 
