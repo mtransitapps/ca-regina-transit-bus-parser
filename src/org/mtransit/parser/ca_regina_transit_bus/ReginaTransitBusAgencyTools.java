@@ -109,22 +109,22 @@ public class ReginaTransitBusAgencyTools extends DefaultAgencyTools {
 
 	@Override
 	public void setTripHeadsign(MRoute mRoute, MTrip mTrip, GTrip gTrip, GSpec gtfs) {
-		if (mRoute.id == 1l) {
+		if (mRoute.getId() == 1l) {
 			if (gTrip.getDirectionId() == 0) {
 				mTrip.setHeadsignString(DIEPPE, gTrip.getDirectionId());
 				return;
 			}
-		} else if (mRoute.id == 2l) {
+		} else if (mRoute.getId() == 2l) {
 			if (gTrip.getDirectionId() == 1) {
 				mTrip.setHeadsignString(ARGYLE_PARK, gTrip.getDirectionId());
 				return;
 			}
-		} else if (mRoute.id == 3l) {
+		} else if (mRoute.getId() == 3l) {
 			if (gTrip.getDirectionId() == 1) {
 				mTrip.setHeadsignString(SHERWOOD, gTrip.getDirectionId());
 				return;
 			}
-		} else if (mRoute.id == 15l) {
+		} else if (mRoute.getId() == 15l) {
 			String gTripHeadsignLC = gTrip.getTripHeadsign().toLowerCase(Locale.ENGLISH);
 			if (gTripHeadsignLC.endsWith(EAST)) {
 				mTrip.setHeadsignDirection(MDirectionType.EAST);
@@ -133,7 +133,7 @@ public class ReginaTransitBusAgencyTools extends DefaultAgencyTools {
 				mTrip.setHeadsignDirection(MDirectionType.WEST);
 				return;
 			}
-		} else if (mRoute.id == 16l) {
+		} else if (mRoute.getId() == 16l) {
 			if (gTrip.getDirectionId() == 0) {
 				mTrip.setHeadsignDirection(MDirectionType.EAST);
 				return;
@@ -141,7 +141,7 @@ public class ReginaTransitBusAgencyTools extends DefaultAgencyTools {
 				mTrip.setHeadsignDirection(MDirectionType.WEST);
 				return;
 			}
-		} else if (mRoute.id == 17l) {
+		} else if (mRoute.getId() == 17l) {
 			String gTripHeadsignLC = gTrip.getTripHeadsign().toLowerCase(Locale.ENGLISH);
 			if (gTripHeadsignLC.endsWith(EAST)) {
 				mTrip.setHeadsignDirection(MDirectionType.EAST);
@@ -150,12 +150,12 @@ public class ReginaTransitBusAgencyTools extends DefaultAgencyTools {
 				mTrip.setHeadsignDirection(MDirectionType.WEST);
 				return;
 			}
-		} else if (mRoute.id == 21l) {
+		} else if (mRoute.getId() == 21l) {
 			if (gTrip.getDirectionId() == 1) {
 				mTrip.setHeadsignString(GLENCAIRN, gTrip.getDirectionId());
 				return;
 			}
-		} else if (mRoute.id == 40l) {
+		} else if (mRoute.getId() == 40l) {
 			String gTripHeadsignLC = gTrip.getTripHeadsign().toLowerCase(Locale.ENGLISH);
 			if (gTripHeadsignLC.contains(NORTH)) {
 				mTrip.setHeadsignDirection(MDirectionType.NORTH);
@@ -171,7 +171,7 @@ public class ReginaTransitBusAgencyTools extends DefaultAgencyTools {
 				mTrip.setHeadsignDirection(MDirectionType.NORTH);
 				return;
 			}
-		} else if (mRoute.id == 50l) {
+		} else if (mRoute.getId() == 50l) {
 			if (gTrip.getDirectionId() == 0) {
 				mTrip.setHeadsignString(EAST_THS, gTrip.getDirectionId());
 				return;
