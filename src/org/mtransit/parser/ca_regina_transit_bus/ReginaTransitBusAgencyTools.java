@@ -155,6 +155,14 @@ public class ReginaTransitBusAgencyTools extends DefaultAgencyTools {
 				mTrip.setHeadsignString(GLENCAIRN, gTrip.getDirectionId());
 				return;
 			}
+		} else if (mRoute.getId() == 22l) {
+			if (gTrip.getDirectionId() == 0) {
+				mTrip.setHeadsignString("University", gTrip.getDirectionId());
+				return;
+			} else if (gTrip.getDirectionId() == 1) {
+				mTrip.setHeadsignString("Arcola East", gTrip.getDirectionId());
+				return;
+			}
 		} else if (mRoute.getId() == 40l) {
 			String gTripHeadsignLC = gTrip.getTripHeadsign().toLowerCase(Locale.ENGLISH);
 			if (gTripHeadsignLC.contains(NORTH)) {
