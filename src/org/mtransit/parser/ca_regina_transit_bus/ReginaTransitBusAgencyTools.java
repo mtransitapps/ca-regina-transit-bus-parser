@@ -191,6 +191,17 @@ public class ReginaTransitBusAgencyTools extends DefaultAgencyTools {
 		mTrip.setHeadsignString(cleanTripHeadsign(gTrip.getTripHeadsign()), gTrip.getDirectionId());
 	}
 
+	@Override
+	public boolean mergeHeadsign(MTrip mTrip, MTrip mTripToMerge) {
+		if (mTrip.getRouteId() == 4l) {
+			mTrip.setHeadsignString("Walsh Acres", mTrip.getHeadsignId());
+			return true;
+		}
+		System.out.printf("\nUnexpected trips to merge %s & %s\n", mTrip, mTripToMerge);
+		System.exit(-1);
+		return false;
+	}
+
 	private static final Pattern EXPRESS = Pattern.compile("((^|\\W){1}(express)(\\W|$){1})", Pattern.CASE_INSENSITIVE);
 
 	private static final String INDUSTRIAL_SHORT = "Ind";
