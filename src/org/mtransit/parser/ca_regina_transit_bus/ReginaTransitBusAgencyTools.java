@@ -5,6 +5,7 @@ import java.util.Locale;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
+import org.mtransit.parser.CleanUtils;
 import org.mtransit.parser.DefaultAgencyTools;
 import org.mtransit.parser.Utils;
 import org.mtransit.parser.gtfs.data.GCalendar;
@@ -15,7 +16,6 @@ import org.mtransit.parser.gtfs.data.GTrip;
 import org.mtransit.parser.mt.data.MAgency;
 import org.mtransit.parser.mt.data.MDirectionType;
 import org.mtransit.parser.mt.data.MRoute;
-import org.mtransit.parser.CleanUtils;
 import org.mtransit.parser.mt.data.MTrip;
 
 // http://openregina.cloudapp.net/
@@ -194,8 +194,15 @@ public class ReginaTransitBusAgencyTools extends DefaultAgencyTools {
 	@Override
 	public boolean mergeHeadsign(MTrip mTrip, MTrip mTripToMerge) {
 		if (mTrip.getRouteId() == 4l) {
-			mTrip.setHeadsignString("Walsh Acres", mTrip.getHeadsignId());
-			return true;
+			if (mTrip.getHeadsignId() == 1) {
+				mTrip.setHeadsignString("Walsh Acres", mTrip.getHeadsignId());
+				return true;
+			}
+		} else if (mTrip.getRouteId() == 5l) {
+			if (mTrip.getHeadsignId() == 1) {
+				mTrip.setHeadsignString("Downtown", mTrip.getHeadsignId());
+				return true;
+			}
 		}
 		System.out.printf("\nUnexpected trips to merge %s & %s\n", mTrip, mTripToMerge);
 		System.exit(-1);
