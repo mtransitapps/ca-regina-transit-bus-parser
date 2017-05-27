@@ -113,6 +113,7 @@ public class ReginaTransitBusAgencyTools extends DefaultAgencyTools {
 	private static final String UNIVERSITY = "University";
 	private static final String UPLANDS = "Uplands";
 	private static final String WOODLAND_GROVE = "Woodland Grv";
+	private static final String GLENCAIRN = "Glencairn";
 
 	private static HashMap<Long, RouteTripSpec> ALL_ROUTE_TRIPS2;
 	static {
@@ -212,6 +213,21 @@ public class ReginaTransitBusAgencyTools extends DefaultAgencyTools {
 						"382", // UNIVERSITY DR E @ FIRST NATIONS WAY (NB)
 								"1397", // PARLIAMENT AVE @ HARBOUR LANDING DRIVE (WB)
 								"1566", // HARVARD WAY @ GRASSLANDS DR
+						})) //
+				.compileBothTripSort());
+		map2.put(21L, new RouteTripSpec(21L, //
+				0, MTrip.HEADSIGN_TYPE_STRING, UNIVERSITY, //
+				1, MTrip.HEADSIGN_TYPE_STRING, GLENCAIRN) //
+				.addTripSort(0, //
+						Arrays.asList(new String[] { //
+						"752", // CAVENDISH ST @ 9TH AVE (NB)
+								"249", // UNIVERSITY DR W @ RIDDELL CENTRE (SB)
+						})) //
+				.addTripSort(1, //
+						Arrays.asList(new String[] { //
+						"249", // UNIVERSITY DR W @ RIDDELL CENTRE (SB)
+								"384", // SASKATCHEWAN POLYTECHNIC @ MAIN CAMPUS (NB)
+								"752", // CAVENDISH ST @ 9TH AVE (NB)
 						})) //
 				.compileBothTripSort());
 		map2.put(22L, new RouteTripSpec(22L, //
