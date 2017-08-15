@@ -206,11 +206,18 @@ public class ReginaTransitBusAgencyTools extends DefaultAgencyTools {
 				.addTripSort(0, //
 						Arrays.asList(new String[] { //
 						"1566", // HARVARD WAY @ GRASSLANDS DR
+								"269", // !=
+								"270", // <> UNIVERSITY DR W @ RIDDELL CENTRE (NB)
+								"271", // !=
 								"382", // UNIVERSITY DR E @ FIRST NATIONS WAY (NB)
 						})) //
 				.addTripSort(1, //
 						Arrays.asList(new String[] { //
 						"382", // UNIVERSITY DR E @ FIRST NATIONS WAY (NB)
+								"1228", // !=
+								"270", // <> UNIVERSITY DR W @ RIDDELL CENTRE (NB)
+								"250", // !=
+								"584", // RAE ST @ GOLDEN MILE (SB)
 								"1397", // PARLIAMENT AVE @ HARBOUR LANDING DRIVE (WB)
 								"1566", // HARVARD WAY @ GRASSLANDS DR
 						})) //
@@ -221,12 +228,15 @@ public class ReginaTransitBusAgencyTools extends DefaultAgencyTools {
 				.addTripSort(0, //
 						Arrays.asList(new String[] { //
 						"752", // CAVENDISH ST @ 9TH AVE (NB)
+								"520", // UNIVERSITY PARK DR @ VIC SQ MALL (SB)
 								"249", // UNIVERSITY DR W @ RIDDELL CENTRE (SB)
 						})) //
 				.addTripSort(1, //
 						Arrays.asList(new String[] { //
 						"249", // UNIVERSITY DR W @ RIDDELL CENTRE (SB)
-								"384", // SASKATCHEWAN POLYTECHNIC @ MAIN CAMPUS (NB)
+								"383", // ==
+								"384", // != SASKATCHEWAN POLYTECHNIC @ MAIN CAMPUS (NB)
+								"838", // ==
 								"752", // CAVENDISH ST @ 9TH AVE (NB)
 						})) //
 				.compileBothTripSort());
@@ -320,6 +330,16 @@ public class ReginaTransitBusAgencyTools extends DefaultAgencyTools {
 
 	@Override
 	public boolean mergeHeadsign(MTrip mTrip, MTrip mTripToMerge) {
+		List<String> headsignsValues = Arrays.asList(mTrip.getHeadsignValue(), mTripToMerge.getHeadsignValue());
+		if (mTrip.getRouteId() == 4L) {
+			if (Arrays.asList( //
+					"Downtown", //
+					"Walsh Acres" //
+			).containsAll(headsignsValues)) {
+				mTrip.setHeadsignString("Walsh Acres", mTrip.getHeadsignId());
+				return true;
+			}
+		}
 		System.out.printf("\nUnexpected trips to merge %s & %s\n", mTrip, mTripToMerge);
 		System.exit(-1);
 		return false;
