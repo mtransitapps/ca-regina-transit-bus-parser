@@ -191,11 +191,17 @@ public class ReginaTransitBusAgencyTools extends DefaultAgencyTools {
 				.addTripSort(MDirectionType.EAST.intValue(), //
 						Arrays.asList(new String[] { //
 						"1450", // MAPLERIDGE DR @ MAPLETON BAY (SB)
-								"1589", // VANSTONE ST @ BIG BEAR BLVD (SB)
+								"204", // == !=
+								"1423", // != <> STOCKTON ST @ CHILD AVE (NB) => WEST
+								"1451", // != !=
+								"1589", // != VANSTONE ST @ BIG BEAR BLVD (SB)
 						})) //
 				.addTripSort(MDirectionType.WEST.intValue(), //
 						Arrays.asList(new String[] { //
 						"1589", // VANSTONE ST @ BIG BEAR BLVD (SB)
+								"153", // !=
+								"1423", // <> STOCKTON ST @ CHILD AVE (NB)
+								"1424", // !=
 								"323", // ROCHDALE BLVD @ LAKEWOOD CRT (WB)
 								"1450", // MAPLERIDGE DR @ MAPLETON BAY (SB)
 						})) //
@@ -278,6 +284,7 @@ public class ReginaTransitBusAgencyTools extends DefaultAgencyTools {
 				.addTripSort(0, //
 						Arrays.asList(new String[] { //
 						"1544", // 11TH AVE @ CORNWALL ST (EB)
+								"1233", // !=
 								"528", // WESTFAIR RD @ SUPERSTORE (WB)
 						})) //
 				.addTripSort(1, //
@@ -288,7 +295,6 @@ public class ReginaTransitBusAgencyTools extends DefaultAgencyTools {
 								"1420", // DEWDNEY AVE @ PRINCE OF WALES DR (EB)
 								"1267", // !=
 								"528", // xx WESTFAIR RD @ SUPERSTORE (WB)
-								"529", // xx
 								"530", // !=
 								"1544", // 11TH AVE @ CORNWALL ST (EB)
 						})) //
@@ -337,6 +343,14 @@ public class ReginaTransitBusAgencyTools extends DefaultAgencyTools {
 					"Walsh Acres" //
 			).containsAll(headsignsValues)) {
 				mTrip.setHeadsignString("Walsh Acres", mTrip.getHeadsignId());
+				return true;
+			}
+		} else if (mTrip.getRouteId() == 7L) {
+			if (Arrays.asList( //
+					"", //
+					"Whitmore Pk" //
+			).containsAll(headsignsValues)) {
+				mTrip.setHeadsignString("Whitmore Pk", mTrip.getHeadsignId());
 				return true;
 			}
 		}
