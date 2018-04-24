@@ -299,13 +299,33 @@ public class ReginaTransitBusAgencyTools extends DefaultAgencyTools {
 								"1544", // 11TH AVE @ CORNWALL ST (EB)
 						})) //
 				.compileBothTripSort());
+		map2.put(60L, new RouteTripSpec(50L, //
+				0, MTrip.HEADSIGN_TYPE_STRING, EAST, //
+				1, MTrip.HEADSIGN_TYPE_STRING, DOWNTOWN) //
+				.addTripSort(0, //
+						Arrays.asList(new String[] { //
+						"1333", // 11TH AVE @ SCARTH ST (WB)
+								"829", // !=
+								"830", // <> WOODHAMS RD@SS LEISURE CENTRE (EB)
+								"1518", // !=
+								"1614", // GREEN BANK RD @ GREEN PINE GATE (NB)
+						})) //
+				.addTripSort(1, //
+						Arrays.asList(new String[] { //
+						"1614", // GREEN BANK RD @ GREEN PINE GATE (NB)
+								"1517", // !=
+								"830", // <> WOODHAMS RD@SS LEISURE CENTRE (EB)
+								"1023", // !=
+								"1333", // 11TH AVE @ SCARTH ST (WB)
+						})) //
+				.compileBothTripSort());
 		ALL_ROUTE_TRIPS2 = map2;
 	}
 
 	@Override
 	public int compareEarly(long routeId, List<MTripStop> list1, List<MTripStop> list2, MTripStop ts1, MTripStop ts2, GStop ts1GStop, GStop ts2GStop) {
 		if (ALL_ROUTE_TRIPS2.containsKey(routeId)) {
-			return ALL_ROUTE_TRIPS2.get(routeId).compare(routeId, list1, list2, ts1, ts2, ts1GStop, ts2GStop);
+			return ALL_ROUTE_TRIPS2.get(routeId).compare(routeId, list1, list2, ts1, ts2, ts1GStop, ts2GStop, this);
 		}
 		return super.compareEarly(routeId, list1, list2, ts1, ts2, ts1GStop, ts2GStop);
 	}
@@ -321,7 +341,7 @@ public class ReginaTransitBusAgencyTools extends DefaultAgencyTools {
 	@Override
 	public Pair<Long[], Integer[]> splitTripStop(MRoute mRoute, GTrip gTrip, GTripStop gTripStop, ArrayList<MTrip> splitTrips, GSpec routeGTFS) {
 		if (ALL_ROUTE_TRIPS2.containsKey(mRoute.getId())) {
-			return SplitUtils.splitTripStop(mRoute, gTrip, gTripStop, routeGTFS, ALL_ROUTE_TRIPS2.get(mRoute.getId()));
+			return SplitUtils.splitTripStop(mRoute, gTrip, gTripStop, routeGTFS, ALL_ROUTE_TRIPS2.get(mRoute.getId()), this);
 		}
 		return super.splitTripStop(mRoute, gTrip, gTripStop, splitTrips, routeGTFS);
 	}
@@ -337,20 +357,19 @@ public class ReginaTransitBusAgencyTools extends DefaultAgencyTools {
 	@Override
 	public boolean mergeHeadsign(MTrip mTrip, MTrip mTripToMerge) {
 		List<String> headsignsValues = Arrays.asList(mTrip.getHeadsignValue(), mTripToMerge.getHeadsignValue());
+		if (StringUtils.isEmpty(mTrip.getHeadsignValue())) {
+			mTrip.setHeadsignString(mTripToMerge.getHeadsignValue(), mTrip.getHeadsignId());
+			return true;
+		} else if (StringUtils.isEmpty(mTripToMerge.getHeadsignValue())) {
+			mTrip.setHeadsignString(mTrip.getHeadsignValue(), mTrip.getHeadsignId());
+			return true;
+		}
 		if (mTrip.getRouteId() == 4L) {
 			if (Arrays.asList( //
 					"Downtown", //
 					"Walsh Acres" //
 			).containsAll(headsignsValues)) {
 				mTrip.setHeadsignString("Walsh Acres", mTrip.getHeadsignId());
-				return true;
-			}
-		} else if (mTrip.getRouteId() == 7L) {
-			if (Arrays.asList( //
-					"", //
-					"Whitmore Pk" //
-			).containsAll(headsignsValues)) {
-				mTrip.setHeadsignString("Whitmore Pk", mTrip.getHeadsignId());
 				return true;
 			}
 		}
