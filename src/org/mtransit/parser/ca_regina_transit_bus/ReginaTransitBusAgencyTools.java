@@ -299,7 +299,7 @@ public class ReginaTransitBusAgencyTools extends DefaultAgencyTools {
 								"1544", // 11TH AVE @ CORNWALL ST (EB)
 						})) //
 				.compileBothTripSort());
-		map2.put(60L, new RouteTripSpec(50L, //
+		map2.put(60L, new RouteTripSpec(60L, //
 				0, MTrip.HEADSIGN_TYPE_STRING, EAST, //
 				1, MTrip.HEADSIGN_TYPE_STRING, DOWNTOWN) //
 				.addTripSort(0, //
