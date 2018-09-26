@@ -28,7 +28,8 @@ import org.mtransit.parser.mt.data.MRoute;
 import org.mtransit.parser.mt.data.MTrip;
 import org.mtransit.parser.mt.data.MTripStop;
 
-// http://openregina.cloudapp.net/
+// http://open.regina.ca/
+// http://open.regina.ca/dataset/transit-network
 // https://opengis.regina.ca/reginagtfs/google_transit.zip
 public class ReginaTransitBusAgencyTools extends DefaultAgencyTools {
 
@@ -123,20 +124,49 @@ public class ReginaTransitBusAgencyTools extends DefaultAgencyTools {
 	private static HashMap<Long, RouteTripSpec> ALL_ROUTE_TRIPS2;
 	static {
 		HashMap<Long, RouteTripSpec> map2 = new HashMap<Long, RouteTripSpec>();
+		map2.put(1L, new RouteTripSpec(1L, //
+				0, MTrip.HEADSIGN_TYPE_STRING, "Dieppe", //
+				1, MTrip.HEADSIGN_TYPE_STRING, "Broad North") //
+				.addTripSort(0, //
+						Arrays.asList(new String[] { //
+						"0060", // xx <> 7TH AVE N @ SMITH ST (EB)
+								"0061", // !=
+								"0069", // STURDY ST @ 12TH AVE N (NB)
+								"0087", // !=
+								"0059", // <>
+								"0060", // xx <> 7TH AVE N @ SMITH ST (EB)
+								"0089", // !=
+								"0002", // COURTNEY ST @ DEWDNEY AVE (NB)
+						})) //
+				.addTripSort(1, //
+						Arrays.asList(new String[] { //
+						"0002", // COURTNEY ST @ DEWDNEY AVE (NB)
+								"1544", // 11TH AVE @ CORNWALL ST (EB)
+								"0052", // 2ND AVE N @ BROAD ST (WB)
+								"0058", // !=
+								"0059", // <>
+								"0060", // <> 7TH AVE N @ SMITH ST (EB)
+						})) //
+				.compileBothTripSort());
 		map2.put(2L, new RouteTripSpec(2L, //
 				0, MTrip.HEADSIGN_TYPE_STRING, WOODLAND_GROVE, //
 				1, MTrip.HEADSIGN_TYPE_STRING, ARGYLE_PARK) //
 				.addTripSort(0, //
 						Arrays.asList(new String[] { //
 						"1432", // STOCKTON ST @ CHILD AVE (SB)
-								"807", // 14TH AVE @ COCHRANE HIGH (EB)
-								"528", // WESTFAIR RD @ SUPERSTORE (WB)
+								"0807", // 14TH AVE @ COCHRANE HIGH (EB)
+								"0819", // ==
+								"1032", // !=
+								"1442", // !=
+								"0521", // !=
+								"1453", // !=
+								"0528", // == WESTFAIR RD @ SUPERSTORE (WB)
 						})) //
 				.addTripSort(1, //
 						Arrays.asList(new String[] { //
-						"528", // WESTFAIR RD @ SUPERSTORE (WB)
+						"0528", // WESTFAIR RD @ SUPERSTORE (WB)
 								"1545", // 11TH AVE @ LORNE ST (WB)
-								"144", // SANGSTER BLVD @ STERN BAY (EB)
+								"0144", // SANGSTER BLVD @ STERN BAY (EB)
 								"1432", // STOCKTON ST @ CHILD AVE (SB)
 						})) //
 				.compileBothTripSort());
@@ -147,18 +177,34 @@ public class ReginaTransitBusAgencyTools extends DefaultAgencyTools {
 						Arrays.asList(new String[] { //
 						"1545", // 11TH AVE @ LORNE ST (WB)
 								"1536", // != 6TH AVE N @ GARNET ST (EB)
-								"488", // <> != ARGYLE ST N @ 6TH AVE N (NB)
+								"0488", // <> != ARGYLE ST N @ 6TH AVE N (NB)
 								"1454", // == 6TH AVE N @ ANGUS RD (EB)
-								"69", // STURDY ST @ 12TH AVE N (NB)
+								"0069", // STURDY ST @ 12TH AVE N (NB)
 						})) //
 				.addTripSort(1, //
 						Arrays.asList(new String[] { //
-						"69", // STURDY ST @ 12TH AVE N (NB)
-								"88", // 7TH AVE N @ SMITH ST (WB)
+						"0069", // STURDY ST @ 12TH AVE N (NB)
+								"0088", // 7TH AVE N @ SMITH ST (WB)
 								"1455", // == 6TH AVE N @ SHEPHERD ST (WB)
-								"488", // <> != ARGYLE ST N @ 6TH AVE N (NB)
-								"471", // == GARNET ST @ WOODWARD AVE (SB)
+								"0488", // <> != ARGYLE ST N @ 6TH AVE N (NB)
+								"0471", // == GARNET ST @ WOODWARD AVE (SB)
 								"1545", // 11TH AVE @ LORNE ST (WB)
+						})) //
+				.compileBothTripSort());
+		map2.put(7L, new RouteTripSpec(7L, //
+				0, MTrip.HEADSIGN_TYPE_STRING, "Glencairn", //
+				1, MTrip.HEADSIGN_TYPE_STRING, "Whitmore Pk") //
+				.addTripSort(0, //
+						Arrays.asList(new String[] { //
+						"0602", // SOUTHLAND MALL @ PLAINSVIEW RD (WB)
+								"0653", // ++
+								"0528", // WESTFAIR RD @ SUPERSTORE (WB)
+						})) //
+				.addTripSort(1, //
+						Arrays.asList(new String[] { //
+						"0528", // WESTFAIR RD @ SUPERSTORE (WB)
+								"0558", // DEWDNEY AVE @ CAVENDISH ST (WB)
+								"0602", // SOUTHLAND MALL @ PLAINSVIEW RD (WB)
 						})) //
 				.compileBothTripSort());
 		map2.put(15L, new RouteTripSpec(15L, //
@@ -173,6 +219,7 @@ public class ReginaTransitBusAgencyTools extends DefaultAgencyTools {
 				.addTripSort(MDirectionType.WEST.intValue(), //
 						Arrays.asList(new String[] { //
 						"1189", // ROSE ST @ 13TH AVE (NB)
+								"0691", // ++
 								"1537", // 11TH AVE @ SCARTH ST (EB)
 						})) //
 				.compileBothTripSort());
@@ -181,13 +228,16 @@ public class ReginaTransitBusAgencyTools extends DefaultAgencyTools {
 				MDirectionType.WEST.intValue(), MTrip.HEADSIGN_TYPE_DIRECTION, MDirectionType.WEST.getId()) //
 				.addTripSort(MDirectionType.EAST.intValue(), //
 						Arrays.asList(new String[] { //
-						"202", // ROCHDALE BLVD @ SHERWOOD MALL (EB)
-								"1574", // MCEACHERN DR @ MAZURAK CRES (WB)
+						"0202", // ROCHDALE BLVD @ SHERWOOD MALL (EB)
+								"0204", // ++
+								"1432", // STOCKTON ST @ CHILD AVE (SB)
 						})) //
 				.addTripSort(MDirectionType.WEST.intValue(), //
 						Arrays.asList(new String[] { //
-						"1574", // MCEACHERN DR @ MAZURAK CRES (WB)
-								"202", // ROCHDALE BLVD @ SHERWOOD MALL (EB)
+						"1432", // STOCKTON ST @ CHILD AVE (SB)
+								"1574", // MCEACHERN DR @ MAZURAK CRES (WB)
+								"1423", // STOCKTON ST @ CHILD AVE (NB)
+								"0202", // ROCHDALE BLVD @ SHERWOOD MALL (EB)
 						})) //
 				.compileBothTripSort());
 		map2.put(17L, new RouteTripSpec(17L, //
@@ -196,7 +246,7 @@ public class ReginaTransitBusAgencyTools extends DefaultAgencyTools {
 				.addTripSort(MDirectionType.EAST.intValue(), //
 						Arrays.asList(new String[] { //
 						"1450", // MAPLERIDGE DR @ MAPLETON BAY (SB)
-								"204", // == !=
+								"0204", // == !=
 								"1423", // != <> STOCKTON ST @ CHILD AVE (NB) => WEST
 								"1451", // != !=
 								"1589", // != VANSTONE ST @ BIG BEAR BLVD (SB)
@@ -204,10 +254,10 @@ public class ReginaTransitBusAgencyTools extends DefaultAgencyTools {
 				.addTripSort(MDirectionType.WEST.intValue(), //
 						Arrays.asList(new String[] { //
 						"1589", // VANSTONE ST @ BIG BEAR BLVD (SB)
-								"153", // !=
+								"0153", // !=
 								"1423", // <> STOCKTON ST @ CHILD AVE (NB)
 								"1424", // !=
-								"323", // ROCHDALE BLVD @ LAKEWOOD CRT (WB)
+								"0323", // ROCHDALE BLVD @ LAKEWOOD CRT (WB)
 								"1450", // MAPLERIDGE DR @ MAPLETON BAY (SB)
 						})) //
 				.compileBothTripSort());
@@ -217,18 +267,18 @@ public class ReginaTransitBusAgencyTools extends DefaultAgencyTools {
 				.addTripSort(0, //
 						Arrays.asList(new String[] { //
 						"1566", // HARVARD WAY @ GRASSLANDS DR
-								"269", // !=
-								"270", // <> UNIVERSITY DR W @ RIDDELL CENTRE (NB)
-								"271", // !=
-								"382", // UNIVERSITY DR E @ FIRST NATIONS WAY (NB)
+								"0269", // !=
+								"0270", // <> UNIVERSITY DR W @ RIDDELL CENTRE (NB)
+								"0271", // !=
+								"0382", // UNIVERSITY DR E @ FIRST NATIONS WAY (NB)
 						})) //
 				.addTripSort(1, //
 						Arrays.asList(new String[] { //
-						"382", // UNIVERSITY DR E @ FIRST NATIONS WAY (NB)
+						"0382", // UNIVERSITY DR E @ FIRST NATIONS WAY (NB)
 								"1228", // !=
-								"270", // <> UNIVERSITY DR W @ RIDDELL CENTRE (NB)
-								"250", // !=
-								"584", // RAE ST @ GOLDEN MILE (SB)
+								"0270", // <> UNIVERSITY DR W @ RIDDELL CENTRE (NB)
+								"0250", // !=
+								"0584", // RAE ST @ GOLDEN MILE (SB)
 								"1397", // PARLIAMENT AVE @ HARBOUR LANDING DRIVE (WB)
 								"1566", // HARVARD WAY @ GRASSLANDS DR
 						})) //
@@ -238,17 +288,17 @@ public class ReginaTransitBusAgencyTools extends DefaultAgencyTools {
 				1, MTrip.HEADSIGN_TYPE_STRING, GLENCAIRN) //
 				.addTripSort(0, //
 						Arrays.asList(new String[] { //
-						"752", // CAVENDISH ST @ 9TH AVE (NB)
-								"520", // UNIVERSITY PARK DR @ VIC SQ MALL (SB)
-								"249", // UNIVERSITY DR W @ RIDDELL CENTRE (SB)
+						"0752", // CAVENDISH ST @ 9TH AVE (NB)
+								"0520", // UNIVERSITY PARK DR @ VIC SQ MALL (SB)
+								"0249", // UNIVERSITY DR W @ RIDDELL CENTRE (SB)
 						})) //
 				.addTripSort(1, //
 						Arrays.asList(new String[] { //
-						"249", // UNIVERSITY DR W @ RIDDELL CENTRE (SB)
-								"383", // ==
-								"384", // != SASKATCHEWAN POLYTECHNIC @ MAIN CAMPUS (NB)
-								"838", // ==
-								"752", // CAVENDISH ST @ 9TH AVE (NB)
+						"0249", // UNIVERSITY DR W @ RIDDELL CENTRE (SB)
+								"0383", // ==
+								"0384", // != SASKATCHEWAN POLYTECHNIC @ MAIN CAMPUS (NB)
+								"0838", // ==
+								"0752", // CAVENDISH ST @ 9TH AVE (NB)
 						})) //
 				.compileBothTripSort());
 		map2.put(22L, new RouteTripSpec(22L, //
@@ -256,16 +306,16 @@ public class ReginaTransitBusAgencyTools extends DefaultAgencyTools {
 				1, MTrip.HEADSIGN_TYPE_STRING, ARCOLA_EAST) //
 				.addTripSort(0, //
 						Arrays.asList(new String[] { //
-						"830", // WOODHAMS RD@SS LEISURE CENTRE (EB)
-								"831", // ASSINIBOINE AVE @ PRINCE OF WALES (WB)
-								"270", // UNIVERSITY DR W @ RIDDELL CENTRE (NB)
-								"587", // MASSEY RD @ PARKER AVE (SB)
+						"0830", // WOODHAMS RD@SS LEISURE CENTRE (EB)
+								"0831", // ASSINIBOINE AVE @ PRINCE OF WALES (WB)
+								"0270", // UNIVERSITY DR W @ RIDDELL CENTRE (NB)
+								"0587", // MASSEY RD @ PARKER AVE (SB)
 						})) //
 				.addTripSort(1, //
 						Arrays.asList(new String[] { //
-						"587", // MASSEY RD @ PARKER AVE (SB)
-								"249", // UNIVERSITY DR W @ RIDDELL CENTRE (SB)
-								"830", // WOODHAMS RD@SS LEISURE CENTRE (EB)
+						"0587", // MASSEY RD @ PARKER AVE (SB)
+								"0249", // UNIVERSITY DR W @ RIDDELL CENTRE (SB)
+								"0830", // WOODHAMS RD@SS LEISURE CENTRE (EB)
 						})) //
 				.compileBothTripSort());
 		map2.put(40L, new RouteTripSpec(40L, //
@@ -289,18 +339,11 @@ public class ReginaTransitBusAgencyTools extends DefaultAgencyTools {
 				.addTripSort(0, //
 						Arrays.asList(new String[] { //
 						"1544", // 11TH AVE @ CORNWALL ST (EB)
-								"1233", // !=
-								"528", // WESTFAIR RD @ SUPERSTORE (WB)
+								"1420", // DEWDNEY AVE @ PRINCE OF WALES DR (EB)
 						})) //
 				.addTripSort(1, //
 						Arrays.asList(new String[] { //
-						"528", // xx WESTFAIR RD @ SUPERSTORE (WB)
-								"529", // xx
-								"1372", // !=
-								"1420", // DEWDNEY AVE @ PRINCE OF WALES DR (EB)
-								"1267", // !=
-								"528", // xx WESTFAIR RD @ SUPERSTORE (WB)
-								"530", // !=
+						"1420", // DEWDNEY AVE @ PRINCE OF WALES DR (EB)
 								"1544", // 11TH AVE @ CORNWALL ST (EB)
 						})) //
 				.compileBothTripSort());
@@ -310,8 +353,8 @@ public class ReginaTransitBusAgencyTools extends DefaultAgencyTools {
 				.addTripSort(0, //
 						Arrays.asList(new String[] { //
 						"1333", // 11TH AVE @ SCARTH ST (WB)
-								"829", // !=
-								"830", // <> WOODHAMS RD@SS LEISURE CENTRE (EB)
+								"0829", // !=
+								"0830", // <> WOODHAMS RD@SS LEISURE CENTRE (EB)
 								"1518", // !=
 								"1614", // GREEN BANK RD @ GREEN PINE GATE (NB)
 						})) //
@@ -319,7 +362,7 @@ public class ReginaTransitBusAgencyTools extends DefaultAgencyTools {
 						Arrays.asList(new String[] { //
 						"1614", // GREEN BANK RD @ GREEN PINE GATE (NB)
 								"1517", // !=
-								"830", // <> WOODHAMS RD@SS LEISURE CENTRE (EB)
+								"0830", // <> WOODHAMS RD@SS LEISURE CENTRE (EB)
 								"1023", // !=
 								"1333", // 11TH AVE @ SCARTH ST (WB)
 						})) //
