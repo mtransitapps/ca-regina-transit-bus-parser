@@ -111,16 +111,6 @@ public class ReginaTransitBusAgencyTools extends DefaultAgencyTools {
 		return AGENCY_COLOR;
 	}
 
-	private static final String ARCOLA_EAST = "Arcola East";
-	private static final String ARGYLE_PARK = "Argyle Pk";
-	private static final String EAST = "East";
-	private static final String DOWNTOWN = "Downtown";
-	private static final String HARBOUR_LANDING = "Harbour Lndg";
-	private static final String UNIVERSITY = "University";
-	private static final String UPLANDS = "Uplands";
-	private static final String WOODLAND_GROVE = "Woodland Grv";
-	private static final String GLENCAIRN = "Glencairn";
-
 	private static HashMap<Long, RouteTripSpec> ALL_ROUTE_TRIPS2;
 	static {
 		HashMap<Long, RouteTripSpec> map2 = new HashMap<Long, RouteTripSpec>();
@@ -136,6 +126,10 @@ public class ReginaTransitBusAgencyTools extends DefaultAgencyTools {
 								"0059", // <>
 								"0060", // xx <> 7TH AVE N @ SMITH ST (EB)
 								"0089", // !=
+								"1434", // ==
+								"1272", // !=
+								"1435", // !=
+								"0096", // ==
 								"0002", // COURTNEY ST @ DEWDNEY AVE (NB)
 						})) //
 				.addTripSort(1, //
@@ -148,37 +142,16 @@ public class ReginaTransitBusAgencyTools extends DefaultAgencyTools {
 								"0060", // <> 7TH AVE N @ SMITH ST (EB)
 						})) //
 				.compileBothTripSort());
-		map2.put(2L, new RouteTripSpec(2L, //
-				0, MTrip.HEADSIGN_TYPE_STRING, WOODLAND_GROVE, //
-				1, MTrip.HEADSIGN_TYPE_STRING, ARGYLE_PARK) //
-				.addTripSort(0, //
-						Arrays.asList(new String[] { //
-						"1432", // STOCKTON ST @ CHILD AVE (SB)
-								"0807", // 14TH AVE @ COCHRANE HIGH (EB)
-								"0819", // ==
-								"1032", // !=
-								"1442", // !=
-								"0521", // !=
-								"1453", // !=
-								"0528", // == WESTFAIR RD @ SUPERSTORE (WB)
-						})) //
-				.addTripSort(1, //
-						Arrays.asList(new String[] { //
-						"0528", // WESTFAIR RD @ SUPERSTORE (WB)
-								"1545", // 11TH AVE @ LORNE ST (WB)
-								"0144", // SANGSTER BLVD @ STERN BAY (EB)
-								"1432", // STOCKTON ST @ CHILD AVE (SB)
-						})) //
-				.compileBothTripSort());
 		map2.put(5L, new RouteTripSpec(5L, //
-				0, MTrip.HEADSIGN_TYPE_STRING, UPLANDS, //
-				1, MTrip.HEADSIGN_TYPE_STRING, DOWNTOWN) //
+				0, MTrip.HEADSIGN_TYPE_STRING, "Uplands", //
+				1, MTrip.HEADSIGN_TYPE_STRING, "Downtown") //
 				.addTripSort(0, //
 						Arrays.asList(new String[] { //
-						"1545", // 11TH AVE @ LORNE ST (WB)
-								"1536", // != 6TH AVE N @ GARNET ST (EB)
-								"0488", // <> != ARGYLE ST N @ 6TH AVE N (NB)
-								"1454", // == 6TH AVE N @ ANGUS RD (EB)
+						"1545", // != 11TH AVE @ LORNE ST (WB) <=
+								"0486", // !=
+								"0488", // ARGYLE ST N @ 6TH AVE N (NB) <=
+								"0161", // !=
+								"1536", // == 6TH AVE N @ GARNET ST (EB)
 								"0069", // STURDY ST @ 12TH AVE N (NB)
 						})) //
 				.addTripSort(1, //
@@ -186,25 +159,12 @@ public class ReginaTransitBusAgencyTools extends DefaultAgencyTools {
 						"0069", // STURDY ST @ 12TH AVE N (NB)
 								"0088", // 7TH AVE N @ SMITH ST (WB)
 								"1455", // == 6TH AVE N @ SHEPHERD ST (WB)
+								"0487", // != !=
 								"0488", // <> != ARGYLE ST N @ 6TH AVE N (NB)
-								"0471", // == GARNET ST @ WOODWARD AVE (SB)
+								"0160", // != !=
+								"0161", // !=
+								"0470", // ==
 								"1545", // 11TH AVE @ LORNE ST (WB)
-						})) //
-				.compileBothTripSort());
-		map2.put(7L, new RouteTripSpec(7L, //
-				0, MTrip.HEADSIGN_TYPE_STRING, "Glencairn", //
-				1, MTrip.HEADSIGN_TYPE_STRING, "Whitmore Pk") //
-				.addTripSort(0, //
-						Arrays.asList(new String[] { //
-						"0602", // SOUTHLAND MALL @ PLAINSVIEW RD (WB)
-								"0653", // ++
-								"0528", // WESTFAIR RD @ SUPERSTORE (WB)
-						})) //
-				.addTripSort(1, //
-						Arrays.asList(new String[] { //
-						"0528", // WESTFAIR RD @ SUPERSTORE (WB)
-								"0558", // DEWDNEY AVE @ CAVENDISH ST (WB)
-								"0602", // SOUTHLAND MALL @ PLAINSVIEW RD (WB)
 						})) //
 				.compileBothTripSort());
 		map2.put(15L, new RouteTripSpec(15L, //
@@ -262,8 +222,8 @@ public class ReginaTransitBusAgencyTools extends DefaultAgencyTools {
 						})) //
 				.compileBothTripSort());
 		map2.put(18L, new RouteTripSpec(18L, //
-				0, MTrip.HEADSIGN_TYPE_STRING, UNIVERSITY, //
-				1, MTrip.HEADSIGN_TYPE_STRING, HARBOUR_LANDING) //
+				0, MTrip.HEADSIGN_TYPE_STRING, "University", //
+				1, MTrip.HEADSIGN_TYPE_STRING, "Harbour Lndg") //
 				.addTripSort(0, //
 						Arrays.asList(new String[] { //
 						"1566", // HARVARD WAY @ GRASSLANDS DR
@@ -279,43 +239,7 @@ public class ReginaTransitBusAgencyTools extends DefaultAgencyTools {
 								"0270", // <> UNIVERSITY DR W @ RIDDELL CENTRE (NB)
 								"0250", // !=
 								"0584", // RAE ST @ GOLDEN MILE (SB)
-								"1397", // PARLIAMENT AVE @ HARBOUR LANDING DRIVE (WB)
 								"1566", // HARVARD WAY @ GRASSLANDS DR
-						})) //
-				.compileBothTripSort());
-		map2.put(21L, new RouteTripSpec(21L, //
-				0, MTrip.HEADSIGN_TYPE_STRING, UNIVERSITY, //
-				1, MTrip.HEADSIGN_TYPE_STRING, GLENCAIRN) //
-				.addTripSort(0, //
-						Arrays.asList(new String[] { //
-						"0752", // CAVENDISH ST @ 9TH AVE (NB)
-								"0520", // UNIVERSITY PARK DR @ VIC SQ MALL (SB)
-								"0249", // UNIVERSITY DR W @ RIDDELL CENTRE (SB)
-						})) //
-				.addTripSort(1, //
-						Arrays.asList(new String[] { //
-						"0249", // UNIVERSITY DR W @ RIDDELL CENTRE (SB)
-								"0383", // ==
-								"0384", // != SASKATCHEWAN POLYTECHNIC @ MAIN CAMPUS (NB)
-								"0838", // ==
-								"0752", // CAVENDISH ST @ 9TH AVE (NB)
-						})) //
-				.compileBothTripSort());
-		map2.put(22L, new RouteTripSpec(22L, //
-				0, MTrip.HEADSIGN_TYPE_STRING, UNIVERSITY, //
-				1, MTrip.HEADSIGN_TYPE_STRING, ARCOLA_EAST) //
-				.addTripSort(0, //
-						Arrays.asList(new String[] { //
-						"0830", // WOODHAMS RD@SS LEISURE CENTRE (EB)
-								"0831", // ASSINIBOINE AVE @ PRINCE OF WALES (WB)
-								"0270", // UNIVERSITY DR W @ RIDDELL CENTRE (NB)
-								"0587", // MASSEY RD @ PARKER AVE (SB)
-						})) //
-				.addTripSort(1, //
-						Arrays.asList(new String[] { //
-						"0587", // MASSEY RD @ PARKER AVE (SB)
-								"0249", // UNIVERSITY DR W @ RIDDELL CENTRE (SB)
-								"0830", // WOODHAMS RD@SS LEISURE CENTRE (EB)
 						})) //
 				.compileBothTripSort());
 		map2.put(40L, new RouteTripSpec(40L, //
@@ -331,40 +255,6 @@ public class ReginaTransitBusAgencyTools extends DefaultAgencyTools {
 						"1423", // STOCKTON ST @ CHILD AVE (NB)
 								"1429", // DIEFENBAKER DR @ BLAKE RD (EB)
 								"1566", // HARVARD WAY @ GRASSLANDS DR (NB)
-						})) //
-				.compileBothTripSort());
-		map2.put(50L, new RouteTripSpec(50L, //
-				0, MTrip.HEADSIGN_TYPE_STRING, EAST, //
-				1, MTrip.HEADSIGN_TYPE_STRING, DOWNTOWN) //
-				.addTripSort(0, //
-						Arrays.asList(new String[] { //
-						"1544", // 11TH AVE @ CORNWALL ST (EB)
-								"1420", // DEWDNEY AVE @ PRINCE OF WALES DR (EB)
-						})) //
-				.addTripSort(1, //
-						Arrays.asList(new String[] { //
-						"1420", // DEWDNEY AVE @ PRINCE OF WALES DR (EB)
-								"1544", // 11TH AVE @ CORNWALL ST (EB)
-						})) //
-				.compileBothTripSort());
-		map2.put(60L, new RouteTripSpec(60L, //
-				0, MTrip.HEADSIGN_TYPE_STRING, EAST, //
-				1, MTrip.HEADSIGN_TYPE_STRING, DOWNTOWN) //
-				.addTripSort(0, //
-						Arrays.asList(new String[] { //
-						"1333", // 11TH AVE @ SCARTH ST (WB)
-								"0829", // !=
-								"0830", // <> WOODHAMS RD@SS LEISURE CENTRE (EB)
-								"1518", // !=
-								"1614", // GREEN BANK RD @ GREEN PINE GATE (NB)
-						})) //
-				.addTripSort(1, //
-						Arrays.asList(new String[] { //
-						"1614", // GREEN BANK RD @ GREEN PINE GATE (NB)
-								"1517", // !=
-								"0830", // <> WOODHAMS RD@SS LEISURE CENTRE (EB)
-								"1023", // !=
-								"1333", // 11TH AVE @ SCARTH ST (WB)
 						})) //
 				.compileBothTripSort());
 		ALL_ROUTE_TRIPS2 = map2;
@@ -404,7 +294,6 @@ public class ReginaTransitBusAgencyTools extends DefaultAgencyTools {
 
 	@Override
 	public boolean mergeHeadsign(MTrip mTrip, MTrip mTripToMerge) {
-		List<String> headsignsValues = Arrays.asList(mTrip.getHeadsignValue(), mTripToMerge.getHeadsignValue());
 		if (StringUtils.isEmpty(mTrip.getHeadsignValue())) {
 			mTrip.setHeadsignString(mTripToMerge.getHeadsignValue(), mTrip.getHeadsignId());
 			return true;
@@ -412,12 +301,21 @@ public class ReginaTransitBusAgencyTools extends DefaultAgencyTools {
 			mTrip.setHeadsignString(mTrip.getHeadsignValue(), mTrip.getHeadsignId());
 			return true;
 		}
+		List<String> headsignsValues = Arrays.asList(mTrip.getHeadsignValue(), mTripToMerge.getHeadsignValue());
 		if (mTrip.getRouteId() == 4L) {
 			if (Arrays.asList( //
 					"Downtown", //
 					"Walsh Acres" //
 			).containsAll(headsignsValues)) {
 				mTrip.setHeadsignString("Walsh Acres", mTrip.getHeadsignId());
+				return true;
+			}
+		} else if (mTrip.getRouteId() == 7L) {
+			if (Arrays.asList( //
+					WHITMORE, // <>
+					"Glencairn" //
+			).containsAll(headsignsValues)) {
+				mTrip.setHeadsignString("Glencairn", mTrip.getHeadsignId());
 				return true;
 			}
 		}
@@ -430,14 +328,25 @@ public class ReginaTransitBusAgencyTools extends DefaultAgencyTools {
 
 	private static final String INDUSTRIAL_SHORT = "Ind";
 
-	private static final Pattern INDUSTRIAL = Pattern.compile("((^|\\W){1}(industrial)(\\W|$){1})", Pattern.CASE_INSENSITIVE);
+	private static final Pattern INDUSTRIAL = Pattern.compile("((^|\\W){1}(industrial|indust)(\\W|$){1})", Pattern.CASE_INSENSITIVE);
 	private static final String INDUSTRIAL_REPLACEMENT = "$2" + INDUSTRIAL_SHORT + "$4";
+
+	private static final String WHITMORE = "Whitmore";
+
+	private static final Pattern WHITMORE_PARK_ = Pattern.compile("((^|\\W){1}(whitmore|whitmore park|whitmore pk)(\\W|$){1})", Pattern.CASE_INSENSITIVE);
+	private static final String WHITMORE_PARK_REPLACEMENT = "$2" + WHITMORE + "$4";
+
+	private static final Pattern ARCOLA_VICTORIA_DOWNTOWN_EAST_ = Pattern.compile("((^|\\W){1}((arcola|victoria) (downtown|east))(\\W|$){1})",
+			Pattern.CASE_INSENSITIVE);
+	private static final String ARCOLA_VICTORIA_DOWNTOWN_EAST_REPLACEMENT = "$2" + "$5 $4 " + "$6";
 
 	@Override
 	public String cleanTripHeadsign(String tripHeadsign) {
 		tripHeadsign = tripHeadsign.toLowerCase(Locale.ENGLISH);
 		tripHeadsign = EXPRESS.matcher(tripHeadsign).replaceAll(StringUtils.EMPTY);
 		tripHeadsign = INDUSTRIAL.matcher(tripHeadsign).replaceAll(INDUSTRIAL_REPLACEMENT);
+		tripHeadsign = WHITMORE_PARK_.matcher(tripHeadsign).replaceAll(WHITMORE_PARK_REPLACEMENT);
+		tripHeadsign = ARCOLA_VICTORIA_DOWNTOWN_EAST_.matcher(tripHeadsign).replaceAll(ARCOLA_VICTORIA_DOWNTOWN_EAST_REPLACEMENT);
 		tripHeadsign = CleanUtils.cleanStreetTypes(tripHeadsign);
 		tripHeadsign = CleanUtils.removePoints(tripHeadsign);
 		return CleanUtils.cleanLabel(tripHeadsign);
@@ -457,5 +366,13 @@ public class ReginaTransitBusAgencyTools extends DefaultAgencyTools {
 		gStopName = CleanUtils.cleanStreetTypes(gStopName);
 		gStopName = CleanUtils.cleanNumbers(gStopName);
 		return CleanUtils.cleanLabel(gStopName);
+	}
+
+	@Override
+	public String getStopCode(GStop gStop) {
+		if (StringUtils.isEmpty(gStop.getStopCode())) {
+			return gStop.getStopId(); // stop # used by real-time API
+		}
+		return super.getStopCode(gStop);
 	}
 }
