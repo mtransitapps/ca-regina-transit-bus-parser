@@ -1,20 +1,14 @@
 package org.mtransit.parser.ca_regina_transit_bus;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.regex.Pattern;
-
 import org.apache.commons.lang3.StringUtils;
+import org.jetbrains.annotations.NotNull;
 import org.mtransit.parser.CleanUtils;
 import org.mtransit.parser.DefaultAgencyTools;
+import org.mtransit.parser.MTLog;
 import org.mtransit.parser.Pair;
 import org.mtransit.parser.SplitUtils;
-import org.mtransit.parser.Utils;
 import org.mtransit.parser.SplitUtils.RouteTripSpec;
+import org.mtransit.parser.Utils;
 import org.mtransit.parser.gtfs.data.GCalendar;
 import org.mtransit.parser.gtfs.data.GCalendarDate;
 import org.mtransit.parser.gtfs.data.GRoute;
@@ -27,6 +21,14 @@ import org.mtransit.parser.mt.data.MDirectionType;
 import org.mtransit.parser.mt.data.MRoute;
 import org.mtransit.parser.mt.data.MTrip;
 import org.mtransit.parser.mt.data.MTripStop;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Locale;
+import java.util.regex.Pattern;
 
 // http://open.regina.ca/
 // http://open.regina.ca/dataset/transit-network
@@ -47,11 +49,11 @@ public class ReginaTransitBusAgencyTools extends DefaultAgencyTools {
 
 	@Override
 	public void start(String[] args) {
-		System.out.printf("\nGenerating Regina Transit bus data...");
+		MTLog.log("Generating Regina Transit bus data...");
 		long start = System.currentTimeMillis();
-		this.serviceIds = extractUsefulServiceIds(args, this);
+		this.serviceIds = extractUsefulServiceIds(args, this, true);
 		super.start(args);
-		System.out.printf("\nGenerating Regina Transit bus data... DONE in %s.\n", Utils.getPrettyDuration(System.currentTimeMillis() - start));
+		MTLog.log("Generating Regina Transit bus data... DONE in %s.", Utils.getPrettyDuration(System.currentTimeMillis() - start));
 	}
 
 	@Override
@@ -112,14 +114,15 @@ public class ReginaTransitBusAgencyTools extends DefaultAgencyTools {
 	}
 
 	private static HashMap<Long, RouteTripSpec> ALL_ROUTE_TRIPS2;
+
 	static {
-		HashMap<Long, RouteTripSpec> map2 = new HashMap<Long, RouteTripSpec>();
+		HashMap<Long, RouteTripSpec> map2 = new HashMap<>();
 		map2.put(1L, new RouteTripSpec(1L, //
 				0, MTrip.HEADSIGN_TYPE_STRING, "Dieppe", //
 				1, MTrip.HEADSIGN_TYPE_STRING, "Broad North") //
 				.addTripSort(0, //
-						Arrays.asList(new String[] { //
-						"0060", // xx <> 7TH AVE N @ SMITH ST (EB)
+						Arrays.asList(//
+								"0060", // xx <> 7TH AVE N @ SMITH ST (EB)
 								"0061", // !=
 								"0069", // STURDY ST @ 12TH AVE N (NB)
 								"0087", // !=
@@ -130,33 +133,33 @@ public class ReginaTransitBusAgencyTools extends DefaultAgencyTools {
 								"1272", // !=
 								"1435", // !=
 								"0096", // ==
-								"0002", // COURTNEY ST @ DEWDNEY AVE (NB)
-						})) //
+								"0002" // COURTNEY ST @ DEWDNEY AVE (NB)
+						)) //
 				.addTripSort(1, //
-						Arrays.asList(new String[] { //
-						"0002", // COURTNEY ST @ DEWDNEY AVE (NB)
+						Arrays.asList(//
+								"0002", // COURTNEY ST @ DEWDNEY AVE (NB)
 								"1544", // 11TH AVE @ CORNWALL ST (EB)
 								"0052", // 2ND AVE N @ BROAD ST (WB)
 								"0058", // !=
 								"0059", // <>
-								"0060", // <> 7TH AVE N @ SMITH ST (EB)
-						})) //
+								"0060" // <> 7TH AVE N @ SMITH ST (EB)
+						)) //
 				.compileBothTripSort());
 		map2.put(5L, new RouteTripSpec(5L, //
 				0, MTrip.HEADSIGN_TYPE_STRING, "Uplands", //
 				1, MTrip.HEADSIGN_TYPE_STRING, "Downtown") //
 				.addTripSort(0, //
-						Arrays.asList(new String[] { //
-						"1545", // != 11TH AVE @ LORNE ST (WB) <=
+						Arrays.asList(//
+								"1545", // != 11TH AVE @ LORNE ST (WB) <=
 								"0486", // !=
 								"0488", // ARGYLE ST N @ 6TH AVE N (NB) <=
 								"0161", // !=
 								"1536", // == 6TH AVE N @ GARNET ST (EB)
-								"0069", // STURDY ST @ 12TH AVE N (NB)
-						})) //
+								"0069" // STURDY ST @ 12TH AVE N (NB)
+						)) //
 				.addTripSort(1, //
-						Arrays.asList(new String[] { //
-						"0069", // STURDY ST @ 12TH AVE N (NB)
+						Arrays.asList(//
+								"0069", // STURDY ST @ 12TH AVE N (NB)
 								"0088", // 7TH AVE N @ SMITH ST (WB)
 								"1455", // == 6TH AVE N @ SHEPHERD ST (WB)
 								"0487", // != !=
@@ -164,98 +167,98 @@ public class ReginaTransitBusAgencyTools extends DefaultAgencyTools {
 								"0160", // != !=
 								"0161", // !=
 								"0470", // ==
-								"1545", // 11TH AVE @ LORNE ST (WB)
-						})) //
+								"1545" // 11TH AVE @ LORNE ST (WB)
+						)) //
 				.compileBothTripSort());
 		map2.put(15L, new RouteTripSpec(15L, //
 				MDirectionType.EAST.intValue(), MTrip.HEADSIGN_TYPE_DIRECTION, MDirectionType.EAST.getId(), //
 				MDirectionType.WEST.intValue(), MTrip.HEADSIGN_TYPE_DIRECTION, MDirectionType.WEST.getId()) //
 				.addTripSort(MDirectionType.EAST.intValue(), //
-						Arrays.asList(new String[] { //
-						"1537", // 11TH AVE @ SCARTH ST (EB)
-								"1182", // WINNIPEG ST @ 13TH AVE (SB)
-								"1189", // ROSE ST @ 13TH AVE (NB)
-						})) //
-				.addTripSort(MDirectionType.WEST.intValue(), //
-						Arrays.asList(new String[] { //
-						"1189", // ROSE ST @ 13TH AVE (NB)
-								"0691", // ++
+						Arrays.asList(//
 								"1537", // 11TH AVE @ SCARTH ST (EB)
-						})) //
+								"1182", // WINNIPEG ST @ 13TH AVE (SB)
+								"1189" // ROSE ST @ 13TH AVE (NB)
+						)) //
+				.addTripSort(MDirectionType.WEST.intValue(), //
+						Arrays.asList(//
+								"1189", // ROSE ST @ 13TH AVE (NB)
+								"0691", // ++
+								"1537" // 11TH AVE @ SCARTH ST (EB)
+						)) //
 				.compileBothTripSort());
 		map2.put(16L, new RouteTripSpec(16L, //
 				MDirectionType.EAST.intValue(), MTrip.HEADSIGN_TYPE_DIRECTION, MDirectionType.EAST.getId(), //
 				MDirectionType.WEST.intValue(), MTrip.HEADSIGN_TYPE_DIRECTION, MDirectionType.WEST.getId()) //
 				.addTripSort(MDirectionType.EAST.intValue(), //
-						Arrays.asList(new String[] { //
-						"0202", // ROCHDALE BLVD @ SHERWOOD MALL (EB)
+						Arrays.asList(//
+								"0202", // ROCHDALE BLVD @ SHERWOOD MALL (EB)
 								"0204", // ++
-								"1432", // STOCKTON ST @ CHILD AVE (SB)
-						})) //
+								"1432" // STOCKTON ST @ CHILD AVE (SB)
+						)) //
 				.addTripSort(MDirectionType.WEST.intValue(), //
-						Arrays.asList(new String[] { //
-						"1432", // STOCKTON ST @ CHILD AVE (SB)
+						Arrays.asList(//
+								"1432", // STOCKTON ST @ CHILD AVE (SB)
 								"1574", // MCEACHERN DR @ MAZURAK CRES (WB)
 								"1423", // STOCKTON ST @ CHILD AVE (NB)
-								"0202", // ROCHDALE BLVD @ SHERWOOD MALL (EB)
-						})) //
+								"0202" // ROCHDALE BLVD @ SHERWOOD MALL (EB)
+						)) //
 				.compileBothTripSort());
 		map2.put(17L, new RouteTripSpec(17L, //
 				MDirectionType.EAST.intValue(), MTrip.HEADSIGN_TYPE_DIRECTION, MDirectionType.EAST.getId(), //
 				MDirectionType.WEST.intValue(), MTrip.HEADSIGN_TYPE_DIRECTION, MDirectionType.WEST.getId()) //
 				.addTripSort(MDirectionType.EAST.intValue(), //
-						Arrays.asList(new String[] { //
-						"1450", // MAPLERIDGE DR @ MAPLETON BAY (SB)
+						Arrays.asList(//
+								"1450", // MAPLERIDGE DR @ MAPLETON BAY (SB)
 								"0204", // == !=
 								"1423", // != <> STOCKTON ST @ CHILD AVE (NB) => WEST
 								"1451", // != !=
-								"1589", // != VANSTONE ST @ BIG BEAR BLVD (SB)
-						})) //
+								"1589" // != VANSTONE ST @ BIG BEAR BLVD (SB)
+						)) //
 				.addTripSort(MDirectionType.WEST.intValue(), //
-						Arrays.asList(new String[] { //
-						"1589", // VANSTONE ST @ BIG BEAR BLVD (SB)
+						Arrays.asList(//
+								"1589", // VANSTONE ST @ BIG BEAR BLVD (SB)
 								"0153", // !=
 								"1423", // <> STOCKTON ST @ CHILD AVE (NB)
 								"1424", // !=
 								"0323", // ROCHDALE BLVD @ LAKEWOOD CRT (WB)
-								"1450", // MAPLERIDGE DR @ MAPLETON BAY (SB)
-						})) //
+								"1450" // MAPLERIDGE DR @ MAPLETON BAY (SB)
+						)) //
 				.compileBothTripSort());
 		map2.put(18L, new RouteTripSpec(18L, //
 				0, MTrip.HEADSIGN_TYPE_STRING, "University", //
 				1, MTrip.HEADSIGN_TYPE_STRING, "Harbour Lndg") //
 				.addTripSort(0, //
-						Arrays.asList(new String[] { //
-						"1566", // HARVARD WAY @ GRASSLANDS DR
+						Arrays.asList(//
+								"1566", // HARVARD WAY @ GRASSLANDS DR
 								"0269", // !=
 								"0270", // <> UNIVERSITY DR W @ RIDDELL CENTRE (NB)
 								"0271", // !=
-								"0382", // UNIVERSITY DR E @ FIRST NATIONS WAY (NB)
-						})) //
+								"0382" // UNIVERSITY DR E @ FIRST NATIONS WAY (NB)
+						)) //
 				.addTripSort(1, //
-						Arrays.asList(new String[] { //
-						"0382", // UNIVERSITY DR E @ FIRST NATIONS WAY (NB)
+						Arrays.asList(//
+								"0382", // UNIVERSITY DR E @ FIRST NATIONS WAY (NB)
 								"1228", // !=
 								"0270", // <> UNIVERSITY DR W @ RIDDELL CENTRE (NB)
 								"0250", // !=
 								"0584", // RAE ST @ GOLDEN MILE (SB)
-								"1566", // HARVARD WAY @ GRASSLANDS DR
-						})) //
+								"1566" // HARVARD WAY @ GRASSLANDS DR
+						)) //
 				.compileBothTripSort());
 		map2.put(40L, new RouteTripSpec(40L, //
 				MDirectionType.NORTH.intValue(), MTrip.HEADSIGN_TYPE_DIRECTION, MDirectionType.NORTH.getId(), //
 				MDirectionType.SOUTH.intValue(), MTrip.HEADSIGN_TYPE_DIRECTION, MDirectionType.SOUTH.getId()) //
 				.addTripSort(MDirectionType.NORTH.intValue(), //
-						Arrays.asList(new String[] { //
-						"1566", // HARVARD WAY @ GRASSLANDS DR (NB)
-								"1423", // STOCKTON ST @ CHILD AVE (NB)
-						})) //
-				.addTripSort(MDirectionType.SOUTH.intValue(), //
-						Arrays.asList(new String[] { //
-						"1423", // STOCKTON ST @ CHILD AVE (NB)
-								"1429", // DIEFENBAKER DR @ BLAKE RD (EB)
+						Arrays.asList(//
 								"1566", // HARVARD WAY @ GRASSLANDS DR (NB)
-						})) //
+								"1423" // STOCKTON ST @ CHILD AVE (NB)
+						)) //
+				.addTripSort(MDirectionType.SOUTH.intValue(), //
+						Arrays.asList(//
+								"1423", // STOCKTON ST @ CHILD AVE (NB)
+								"1429", // DIEFENBAKER DR @ BLAKE RD (EB)
+								"1566" // HARVARD WAY @ GRASSLANDS DR (NB)
+						)) //
 				.compileBothTripSort());
 		ALL_ROUTE_TRIPS2 = map2;
 	}
@@ -319,30 +322,32 @@ public class ReginaTransitBusAgencyTools extends DefaultAgencyTools {
 				return true;
 			}
 		}
-		System.out.printf("\nUnexpected trips to merge %s & %s\n", mTrip, mTripToMerge);
+		MTLog.log("Unexpected trips to merge %s & %s", mTrip, mTripToMerge);
 		System.exit(-1);
 		return false;
 	}
 
-	private static final Pattern EXPRESS = Pattern.compile("((^|\\W){1}(express)(\\W|$){1})", Pattern.CASE_INSENSITIVE);
+	private static final Pattern EXPRESS = Pattern.compile("((^|\\W)(express)(\\W|$))", Pattern.CASE_INSENSITIVE);
 
 	private static final String INDUSTRIAL_SHORT = "Ind";
 
-	private static final Pattern INDUSTRIAL = Pattern.compile("((^|\\W){1}(industrial|indust)(\\W|$){1})", Pattern.CASE_INSENSITIVE);
+	private static final Pattern INDUSTRIAL = Pattern.compile("((^|\\W)(industrial|indust)(\\W|$))", Pattern.CASE_INSENSITIVE);
 	private static final String INDUSTRIAL_REPLACEMENT = "$2" + INDUSTRIAL_SHORT + "$4";
 
 	private static final String WHITMORE = "Whitmore";
 
-	private static final Pattern WHITMORE_PARK_ = Pattern.compile("((^|\\W){1}(whitmore|whitmore park|whitmore pk)(\\W|$){1})", Pattern.CASE_INSENSITIVE);
+	private static final Pattern WHITMORE_PARK_ = Pattern.compile("((^|\\W)(whitmore|whitmore park|whitmore pk)(\\W|$))", Pattern.CASE_INSENSITIVE);
 	private static final String WHITMORE_PARK_REPLACEMENT = "$2" + WHITMORE + "$4";
 
-	private static final Pattern ARCOLA_VICTORIA_DOWNTOWN_EAST_ = Pattern.compile("((^|\\W){1}((arcola|victoria) (downtown|east))(\\W|$){1})",
+	private static final Pattern ARCOLA_VICTORIA_DOWNTOWN_EAST_ = Pattern.compile("((^|\\W)((arcola|victoria) (downtown|east))(\\W|$))",
 			Pattern.CASE_INSENSITIVE);
 	private static final String ARCOLA_VICTORIA_DOWNTOWN_EAST_REPLACEMENT = "$2" + "$5 $4 " + "$6";
 
 	@Override
 	public String cleanTripHeadsign(String tripHeadsign) {
-		tripHeadsign = tripHeadsign.toLowerCase(Locale.ENGLISH);
+		if (Utils.isUppercaseOnly(tripHeadsign, true, true)) {
+			tripHeadsign = tripHeadsign.toLowerCase(Locale.ENGLISH);
+		}
 		tripHeadsign = EXPRESS.matcher(tripHeadsign).replaceAll(StringUtils.EMPTY);
 		tripHeadsign = INDUSTRIAL.matcher(tripHeadsign).replaceAll(INDUSTRIAL_REPLACEMENT);
 		tripHeadsign = WHITMORE_PARK_.matcher(tripHeadsign).replaceAll(WHITMORE_PARK_REPLACEMENT);
@@ -352,22 +357,20 @@ public class ReginaTransitBusAgencyTools extends DefaultAgencyTools {
 		return CleanUtils.cleanLabel(tripHeadsign);
 	}
 
-	private static final Pattern ENDS_WITH_BOUND = Pattern.compile("([\\s]*\\([\\s]*[s|e|w|n]b\\)$)", Pattern.CASE_INSENSITIVE);
-
-	private static final Pattern AT_SIGN = Pattern.compile("([\\s]*@[\\s]*)", Pattern.CASE_INSENSITIVE);
-	private static final String AT_SIGN_REPLACEMENT = " / ";
-
 	@Override
 	public String cleanStopName(String gStopName) {
-		gStopName = gStopName.toLowerCase(Locale.ENGLISH);
-		gStopName = ENDS_WITH_BOUND.matcher(gStopName).replaceAll(StringUtils.EMPTY);
-		gStopName = AT_SIGN.matcher(gStopName).replaceAll(AT_SIGN_REPLACEMENT);
+		if (Utils.isUppercaseOnly(gStopName, true, true)) {
+			gStopName = gStopName.toLowerCase(Locale.ENGLISH);
+		}
+		gStopName = CleanUtils.cleanBounds(gStopName);
+		gStopName = CleanUtils.CLEAN_AT.matcher(gStopName).replaceAll(CleanUtils.CLEAN_AT_REPLACEMENT);
 		gStopName = INDUSTRIAL.matcher(gStopName).replaceAll(INDUSTRIAL_REPLACEMENT);
 		gStopName = CleanUtils.cleanStreetTypes(gStopName);
 		gStopName = CleanUtils.cleanNumbers(gStopName);
 		return CleanUtils.cleanLabel(gStopName);
 	}
 
+	@NotNull
 	@Override
 	public String getStopCode(GStop gStop) {
 		if (StringUtils.isEmpty(gStop.getStopCode())) {
