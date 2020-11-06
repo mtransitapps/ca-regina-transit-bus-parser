@@ -313,6 +313,14 @@ public class ReginaTransitBusAgencyTools extends DefaultAgencyTools {
 				mTrip.setHeadsignString("Walsh Acres", mTrip.getHeadsignId());
 				return true;
 			}
+		} else if (mTrip.getRouteId() == 6L) {
+			if (Arrays.asList( //
+					"Westhill", // <>
+					"Ross Ind" //
+			).containsAll(headsignsValues)) {
+				mTrip.setHeadsignString("Ross Ind", mTrip.getHeadsignId());
+				return true;
+			}
 		} else if (mTrip.getRouteId() == 7L) {
 			if (Arrays.asList( //
 					WHITMORE, // <>
@@ -322,9 +330,7 @@ public class ReginaTransitBusAgencyTools extends DefaultAgencyTools {
 				return true;
 			}
 		}
-		MTLog.log("Unexpected trips to merge %s & %s", mTrip, mTripToMerge);
-		System.exit(-1);
-		return false;
+		throw new MTLog.Fatal("Unexpected trips to merge %s & %s", mTrip, mTripToMerge);
 	}
 
 	private static final Pattern EXPRESS = Pattern.compile("((^|\\W)(express)(\\W|$))", Pattern.CASE_INSENSITIVE);
